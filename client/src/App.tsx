@@ -5,12 +5,33 @@ import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
+import AdminDashboard from "./pages/AdminDashboard";
+import AdminBlogList from "./pages/AdminBlogList";
+import AdminBlogForm from "./pages/AdminBlogForm";
+import AdminHomelabList from "./pages/AdminHomelabList";
+import AdminHomelabForm from "./pages/AdminHomelabForm";
+import BlogPost from "./pages/BlogPost";
+import BlogList from "./pages/BlogList";
+import HomelabProject from "./pages/HomelabProject";
+import HomelabList from "./pages/HomelabList";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
   return (
     <Switch>
       <Route path={"/"} component={Home} />
+      {/* Blog Routes */}
+      <Route path={"/blog"} component={BlogList} />
+      <Route path={"/blog/:slug"} component={BlogPost} />
+      {/* Homelab Routes */}
+      <Route path={"/homelab"} component={HomelabList} />
+      <Route path={"/homelab/:slug"} component={HomelabProject} />
+      {/* Admin Routes */}
+      <Route path={"/admin"} component={AdminDashboard} />
+      <Route path={"/admin/blog"} component={AdminBlogList} />
+      <Route path={"/admin/blog/:id"} component={AdminBlogForm} />
+      <Route path={"/admin/homelab"} component={AdminHomelabList} />
+      <Route path={"/admin/homelab/:id"} component={AdminHomelabForm} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />

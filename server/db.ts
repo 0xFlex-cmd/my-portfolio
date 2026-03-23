@@ -1,6 +1,6 @@
-import { eq } from "drizzle-orm";
+import { eq, desc, and } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, users } from "../drizzle/schema";
+import { InsertUser, users, blogPosts, homelabProjects, BlogPost, InsertBlogPost, HomelabProject, InsertHomelabProject } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -89,4 +89,106 @@ export async function getUserByOpenId(openId: string) {
   return result.length > 0 ? result[0] : undefined;
 }
 
-// TODO: add feature queries here as your schema grows.
+// Blog Posts queries
+export async function getBlogPosts(published?: boolean) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const query = published !== undefined 
+    ? db.select().from(blogPosts).where(eq(blogPosts.published, published)).orderBy(desc(blogPosts.createdAt))
+    : db.select().from(blogPosts).orderBy(desc(blogPosts.createdAt));
+  
+  return query;
+}
+
+export async function getBlogPostBySlug(slug: string) {
+  const db = await getDb();
+  if (!db) return undefined;
+  
+  const result = await db.select().from(blogPosts).where(eq(blogPosts.slug, slug)).limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
+export async function getBlogPostById(id: number) {
+  const db = await getDb();
+  if (!db) return undefined;
+  
+  const result = await db.select().from(blogPosts).where(eq(blogPosts.id, id)).limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
+export async function createBlogPost(post: InsertBlogPost) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  const result = await db.insert(blogPosts).values(post);
+  return result;
+}
+
+export async function updateBlogPost(id: number, post: Partial<InsertBlogPost>) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  const result = await db.update(blogPosts).set(post).where(eq(blogPosts.id, id));
+  return result;
+}
+
+export async function deleteBlogPost(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  const result = await db.delete(blogPosts).where(eq(blogPosts.id, id));
+  return result;
+}
+
+// Homelab Projects queries
+export async function getHomelabProjects(published?: boolean) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const query = published !== undefined 
+    ? db.select().from(homelabProjects).where(eq(homelabProjects.published, published)).orderBy(desc(homelabProjects.createdAt))
+    : db.select().from(homelabProjects).orderBy(desc(homelabProjects.createdAt));
+  
+  return query;
+}
+
+export async function getHomelabProjectBySlug(slug: string) {
+  const db = await getDb();
+  if (!db) return undefined;
+  
+  const result = await db.select().from(homelabProjects).where(eq(homelabProjects.slug, slug)).limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
+export async function getHomelabProjectById(id: number) {
+  const db = await getDb();
+  if (!db) return undefined;
+  
+  const result = await db.select().from(homelabProjects).where(eq(homelabProjects.id, id)).limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
+export async function createHomelabProject(project: InsertHomelabProject) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  const result = await db.insert(homelabProjects).values(project);
+  return result;
+}
+
+export async function updateHomelabProject(id: number, project: Partial<InsertHomelabProject>) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  const result = await db.update(homelabProjects).set(project).where(eq(homelabProjects.id, id));
+  return result;
+}
+
+export async function deleteHomelabProject(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  const result = await db.delete(homelabProjects).where(eq(homelabProjects.id, id));
+  return result;
+}
