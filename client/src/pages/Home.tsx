@@ -8,9 +8,20 @@ import { ArrowRight, Menu, X } from "lucide-react";
 import { useState } from "react";
 
 export default function Home() {
-  const { user, loading, isAuthenticated } = useAuth();
-  const [, navigate] = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [, navigate] = useLocation();
+  
+  let user, loading, isAuthenticated;
+  try {
+    const auth = useAuth();
+    user = auth.user;
+    loading = auth.loading;
+    isAuthenticated = auth.isAuthenticated;
+  } catch (e) {
+    user = null;
+    loading = false;
+    isAuthenticated = false;
+  }
 
   const { data: blogPosts } = trpc.blog.list.useQuery({ published: true });
   const { data: homelabProjects } = trpc.homelab.list.useQuery({ published: true });
@@ -50,7 +61,13 @@ export default function Home() {
                 </Button>
               )}
               {!isAuthenticated && !loading && (
-                <Button size="sm" onClick={() => (window.location.href = getLoginUrl())} className="bg-cyan-500 hover:bg-cyan-600">
+                <Button size="sm" onClick={() => {
+                  try {
+                    window.location.href = getLoginUrl();
+                  } catch (e) {
+                    console.error('OAuth not configured');
+                  }
+                }} className="bg-cyan-500 hover:bg-cyan-600">
                   Sign In
                 </Button>
               )}
@@ -94,7 +111,13 @@ export default function Home() {
                   </Button>
                 )}
                 {!isAuthenticated && !loading && (
-                  <Button size="sm" onClick={() => (window.location.href = getLoginUrl())} className="bg-cyan-500 hover:bg-cyan-600 flex-1">
+                  <Button size="sm" onClick={() => {
+                    try {
+                      window.location.href = getLoginUrl();
+                    } catch (e) {
+                      console.error('OAuth not configured');
+                    }
+                  }} className="bg-cyan-500 hover:bg-cyan-600 flex-1">
                     Sign In
                   </Button>
                 )}
