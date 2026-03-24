@@ -17,11 +17,11 @@ export default function AdminBlogList() {
   const { data: posts, isLoading, refetch } = trpc.blog.list.useQuery({});
   const deleteMutation = trpc.blog.delete.useMutation({
     onSuccess: () => {
-      toast.success("Blog post deleted successfully");
+      toast.success("Write-up deleted successfully");
       refetch();
     },
     onError: (error) => {
-      toast.error(error.message || "Failed to delete blog post");
+      toast.error(error.message || "Failed to delete write-up");
     },
   });
 
@@ -44,9 +44,9 @@ export default function AdminBlogList() {
       <div className="space-y-6">
         <div className="flex justify-between items-center">
           <div>
-            <h1 className="text-3xl font-bold">Blog Posts</h1>
+            <h1 className="text-3xl font-bold">Write-ups</h1>
             <p className="text-muted-foreground mt-2">
-              Manage your blog posts
+              Manage your write-ups
             </p>
           </div>
           <Button onClick={() => navigate("/admin/blog/new")}>
@@ -100,7 +100,7 @@ export default function AdminBlogList() {
           ) : (
             <Card>
               <CardContent className="pt-6 text-center">
-                <p className="text-muted-foreground mb-4">No blog posts yet</p>
+                <p className="text-muted-foreground mb-4">No write-ups yet</p>
                 <Button onClick={() => navigate("/admin/blog/new")}>
                   Create your first post
                 </Button>

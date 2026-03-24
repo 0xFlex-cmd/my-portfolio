@@ -26,6 +26,8 @@ export default function AdminHomelabForm() {
     content: "",
     technologies: "",
     published: false,
+    imageUrl: "",
+    tags: "",
   });
 
   const { data: project, isLoading: isLoadingProject } = trpc.homelab.getById.useQuery(
@@ -68,6 +70,8 @@ export default function AdminHomelabForm() {
         content: project.content,
         technologies: project.technologies || "",
         published: project.published,
+        imageUrl: project.imageUrl || "",
+        tags: project.tags || "",
       });
     }
   }, [project]);
@@ -164,6 +168,30 @@ export default function AdminHomelabForm() {
                     setFormData({ ...formData, technologies: e.target.value })
                   }
                   placeholder="e.g., Docker, Kubernetes, Proxmox"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="imageUrl">Image URL</Label>
+                <Input
+                  id="imageUrl"
+                  value={formData.imageUrl}
+                  onChange={(e) =>
+                    setFormData({ ...formData, imageUrl: e.target.value })
+                  }
+                  placeholder="https://example.com/image.jpg"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="tags">Tags (comma separated)</Label>
+                <Input
+                  id="tags"
+                  value={formData.tags}
+                  onChange={(e) =>
+                    setFormData({ ...formData, tags: e.target.value })
+                  }
+                  placeholder="cybersecurity, networking, homelab"
                 />
               </div>
 

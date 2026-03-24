@@ -25,6 +25,8 @@ export default function AdminBlogForm() {
     excerpt: "",
     content: "",
     published: false,
+    imageUrl: "",
+    tags: "",
   });
 
   const { data: post, isLoading: isLoadingPost } = trpc.blog.getById.useQuery(
@@ -66,6 +68,8 @@ export default function AdminBlogForm() {
         excerpt: post.excerpt || "",
         content: post.content,
         published: post.published,
+        imageUrl: post.imageUrl || "",
+        tags: post.tags || "",
       });
     }
   }, [post]);
@@ -150,6 +154,30 @@ export default function AdminBlogForm() {
                   }
                   placeholder="Brief summary of the post"
                   rows={3}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="imageUrl">Image URL</Label>
+                <Input
+                  id="imageUrl"
+                  value={formData.imageUrl}
+                  onChange={(e) =>
+                    setFormData({ ...formData, imageUrl: e.target.value })
+                  }
+                  placeholder="https://example.com/image.jpg"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="tags">Tags (comma separated)</Label>
+                <Input
+                  id="tags"
+                  value={formData.tags}
+                  onChange={(e) =>
+                    setFormData({ ...formData, tags: e.target.value })
+                  }
+                  placeholder="cybersecurity, networking, homelab"
                 />
               </div>
 

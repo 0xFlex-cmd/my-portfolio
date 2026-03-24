@@ -15,6 +15,8 @@ const blogPostSchema = z.object({
   content: z.string().min(1, "Content is required"),
   excerpt: z.string().optional(),
   published: z.boolean().default(false),
+  imageUrl: z.string().optional().nullable(),
+  tags: z.string().optional().nullable(),
 });
 
 export const blogRouter = router({

@@ -34,6 +34,8 @@ export const blogPosts = mysqlTable("blogPosts", {
   excerpt: text("excerpt"),
   authorId: int("authorId").notNull(),
   published: boolean("published").default(false).notNull(),
+  imageUrl: text("imageUrl"),
+  tags: text("tags"),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 });
@@ -50,6 +52,8 @@ export const homelabProjects = mysqlTable("homelabProjects", {
   technologies: text("technologies"),
   authorId: int("authorId").notNull(),
   published: boolean("published").default(false).notNull(),
+  imageUrl: text("imageUrl"),
+  tags: text("tags"),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 });

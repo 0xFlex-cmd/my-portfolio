@@ -44,17 +44,17 @@ export default function Home() {
           <div className="container mx-auto px-4">
             <h2 className="text-4xl font-bold mb-4">Welcome</h2>
             <p className="text-lg text-muted-foreground max-w-2xl">
-              Explore my blog posts and Homelab projects. I share insights about technology,
+              Explore my write-ups and Homelab projects. I share insights about technology,
               infrastructure, and personal projects.
             </p>
           </div>
         </section>
 
-        {/* Blog Posts Section */}
+        {/* Write-ups Section */}
         <section className="border-b py-12">
           <div className="container mx-auto px-4">
             <div className="flex justify-between items-center mb-8">
-              <h3 className="text-3xl font-bold">Latest Blog Posts</h3>
+              <h3 className="text-3xl font-bold">Latest Write-ups</h3>
               <Button variant="outline" onClick={() => navigate("/blog")}>
                 View All <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
@@ -68,9 +68,25 @@ export default function Home() {
                     className="cursor-pointer hover:shadow-lg transition-shadow"
                     onClick={() => navigate(`/blog/${post.slug}`)}
                   >
+                    {post.imageUrl && (
+                      <div className="aspect-video w-full overflow-hidden rounded-t-xl">
+                        <img
+                          src={post.imageUrl}
+                          alt={post.title}
+                          className="w-full h-full object-cover transition-transform hover:scale-105"
+                        />
+                      </div>
+                    )}
                     <CardHeader>
+                      <div className="flex flex-wrap gap-2 mb-2">
+                        {post.tags?.split(",").map((tag) => (
+                          <span key={tag} className="text-[10px] bg-primary/10 text-primary px-2 py-0.5 rounded-full uppercase font-bold tracking-wider">
+                            {tag.trim()}
+                          </span>
+                        ))}
+                      </div>
                       <CardTitle className="line-clamp-2">{post.title}</CardTitle>
-                      <p className="text-sm text-muted-foreground">
+                      <p className="text-xs text-muted-foreground">
                         {new Date(post.createdAt).toLocaleDateString()}
                       </p>
                     </CardHeader>
@@ -85,7 +101,7 @@ export default function Home() {
             ) : (
               <Card>
                 <CardContent className="pt-6 text-center">
-                  <p className="text-muted-foreground">No blog posts yet</p>
+                  <p className="text-muted-foreground">No write-ups yet</p>
                 </CardContent>
               </Card>
             )}
@@ -110,9 +126,25 @@ export default function Home() {
                     className="cursor-pointer hover:shadow-lg transition-shadow"
                     onClick={() => navigate(`/homelab/${project.slug}`)}
                   >
+                    {project.imageUrl && (
+                      <div className="aspect-video w-full overflow-hidden rounded-t-xl">
+                        <img
+                          src={project.imageUrl}
+                          alt={project.title}
+                          className="w-full h-full object-cover transition-transform hover:scale-105"
+                        />
+                      </div>
+                    )}
                     <CardHeader>
+                      <div className="flex flex-wrap gap-2 mb-2">
+                        {project.tags?.split(",").map((tag) => (
+                          <span key={tag} className="text-[10px] bg-secondary/20 text-secondary-foreground px-2 py-0.5 rounded-full uppercase font-bold tracking-wider">
+                            {tag.trim()}
+                          </span>
+                        ))}
+                      </div>
                       <CardTitle className="line-clamp-2">{project.title}</CardTitle>
-                      <p className="text-sm text-muted-foreground">
+                      <p className="text-xs text-muted-foreground">
                         {new Date(project.createdAt).toLocaleDateString()}
                       </p>
                     </CardHeader>
@@ -121,9 +153,13 @@ export default function Home() {
                         {project.description || project.content.substring(0, 100)}...
                       </p>
                       {project.technologies && (
-                        <p className="text-xs text-muted-foreground">
-                          <strong>Tech:</strong> {project.technologies}
-                        </p>
+                        <div className="flex flex-wrap gap-1 mt-2">
+                          {project.technologies.split(",").map(tech => (
+                            <span key={tech} className="text-[10px] border px-1.5 py-0.5 rounded text-muted-foreground">
+                              {tech.trim()}
+                            </span>
+                          ))}
+                        </div>
                       )}
                     </CardContent>
                   </Card>

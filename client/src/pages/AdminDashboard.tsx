@@ -29,21 +29,21 @@ export default function AdminDashboard() {
         <div>
           <h1 className="text-3xl font-bold">Admin Dashboard</h1>
           <p className="text-muted-foreground mt-2">
-            Welcome back, {user?.name}! Manage your blog posts and Homelab projects here.
+            Welcome back, {user?.name}! Manage your write-ups and Homelab projects here.
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="p-6 border rounded-lg bg-card">
-            <h2 className="text-xl font-semibold mb-2">Blog Posts</h2>
+            <h2 className="text-xl font-semibold mb-2">Write-ups</h2>
             <p className="text-muted-foreground mb-4">
-              Create, edit, and manage your blog posts.
+              Create, edit, and manage your write-ups.
             </p>
             <a
               href="/admin/blog"
               className="inline-block px-4 py-2 bg-primary text-primary-foreground rounded hover:bg-primary/90"
             >
-              Manage Blog
+              Manage Write-ups
             </a>
           </div>
 
